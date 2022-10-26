@@ -1,0 +1,23 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:card="sap.f.cards">
+	<Popover placement="Right" showHeader="false" contentWidth="300px">
+			<f:Card width="300px">
+				<f:header>
+					<card:NumericHeader
+						title="FB Team 준비 완료 건수"
+						subtitle="From Food and Beverage Team"
+						number="{CountData>/iCheck_fb_f}"
+						scale="건"
+						state="Good">
+						<card:sideIndicators>
+							<card:NumericSideIndicator number="{CountData>/iCheck_cs_o}" unit="건" title="CS Ongoing" />
+							<card:NumericSideIndicator number="{CountData>/iCheck_cs_f}" unit="건" title="CS Finished" />
+						</card:sideIndicators>
+					</card:NumericHeader>
+				</f:header>
+			</f:Card>
+	</Popover>
+</core:FragmentDefinition>

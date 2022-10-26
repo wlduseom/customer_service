@@ -1,0 +1,156 @@
+<mvc:View controllerName="sync.c201.roomservice.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:layout="sap.ui.layout"
+    height="100%">
+	<Page 
+        showNavButton="true"
+        navButtonPress="onNavBack">
+		<f:DynamicPage id="dynamicPageId"
+			stickySubheaderProvider="iconTabBar"
+			class="sapUiNoContentPadding">
+			<!-- DynamicPage Title -->
+			<f:title>
+				<f:DynamicPageTitle>
+					<f:heading>
+						<Title text="객실 주문 내역"/>
+					</f:heading>
+					<f:expandedContent>
+						<Label text="{InfoData>/sDepNm}"/>
+					</f:expandedContent>
+					<f:snappedContent>
+						<Label text="{InfoData>/sDepNm}"/>
+					</f:snappedContent>
+					<f:snappedTitleOnMobile>
+						<Title text="{InfoData>/sDepNm}"/>
+					</f:snappedTitleOnMobile>
+					<f:content>
+						<OverflowToolbar>
+							<GenericTag text="COUNT"
+								status="Information"
+								press="onGenericTagPress"
+								design="StatusIconHidden"
+								>
+								<ObjectNumber number="{CountData>/iCheck_fb_f}"
+									unit="건"
+									emphasized="false"
+									state="Information"/>
+							</GenericTag>
+						</OverflowToolbar>
+					</f:content>
+					<f:actions>
+						<Button text="Contact" type="Reject" press="onToggleFooter"/>
+						<Button text="Back" type="Default" press="onNavBack"/>
+					</f:actions>
+				</f:DynamicPageTitle>
+			</f:title>
+			<!-- DynamicPage Header -->
+			<f:header>
+				<f:DynamicPageHeader pinnable="true">
+                    <layout:HorizontalLayout class="sapUiMediumMarginEnd">
+                        <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                            <ObjectAttribute text="Grand SAP Hotel"/>
+                            <ObjectAttribute title="지점" text="{InfoData>/sPlant}"/>
+                        </layout:VerticalLayout>
+                        <layout:VerticalLayout class="sapUiMediumMarginEnd">
+                            <ObjectAttribute text="{InfoData>/sDepNm}"/>
+                            <ObjectAttribute title="담당자" text="{InfoData>/sEmpNm}"/>
+                        </layout:VerticalLayout>
+                    </layout:HorizontalLayout>
+				</f:DynamicPageHeader>
+			</f:header>
+			<f:content>
+				<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding"
+							select=".onFilterSelect"
+							expandable="false"
+							selectedKey="{view1>/bsetFilter}">
+					<items>
+						<IconTabFilter text="전체 내역"
+										key="All">
+						</IconTabFilter>
+						<IconTabFilter text="준비 완료 내역"
+										key="FBok">
+							<!-- <Text text="식음료팀에서 준비 완료!" /> -->
+						</IconTabFilter>
+						<IconTabFilter text="전달 완료 내역"
+										key="CSok">
+							<!-- <Text text="고객서비스팀에서 전달 완료!" /> -->
+						</IconTabFilter>
+					</items>
+					<content>
+							<Table id="RoomServiceTable"
+								inset="false"
+								sticky="HeaderToolbar,ColumnHeaders"
+								items="{
+										path: 'Compo>/'
+									}"
+								class="sapUiSmallNegativeMarginBeginEnd"
+								width="auto">
+								<headerToolbar>
+									<Toolbar>
+										<Label text="객실 주문 내역 수행 목록" ></Label>
+									</Toolbar>
+								</headerToolbar>
+								<columns>
+									<Column>
+										<Text text="Order Number" />
+									</Column>
+									<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Text text="Room Number" />
+									</Column>
+									<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" visible="{view1>/bVisibleCS}">
+										<Text text="FB Status"/>
+									</Column>
+									<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" visible="{view1>/bVisibleCS}">
+										<Text text="CS Status"/>
+									</Column>
+									<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center" visible="{view1>/bVisibleCSON}">
+										<Text text="CS Ongoing"/>
+									</Column>
+									<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+										<Text text="Status" />
+									</Column>
+								</columns>
+								<items>
+									<ColumnListItem type="Navigation"
+                                                    press="onCheckOrder"
+                                                    >
+										<cells>
+											<ObjectIdentifier
+                                                title="{Compo>Orderid}"/>
+											<Text
+                                                text="{Compo>Roomno}" />
+											<ObjectStatus
+												text="{Compo>Fbstat}"
+												state="{Compo>indicator1}"/>
+											<ObjectStatus
+												text="{Compo>Csstat}"
+												state="{Compo>indicator3}"/>
+											<CheckBox selected="{Compo>csCheck}" textAlign="Center" enabled="{Compo>csCheckEnabled}" select="onOngoing"/>
+											<ObjectStatus
+												text="{Compo>Orderstat}"
+												state="{Compo>indicator2}" />
+										</cells>
+									</ColumnListItem>
+								</items>
+							</Table>
+					</content>
+				</IconTabBar>
+			</f:content>
+			<!-- DynamicPage Footer -->
+			<f:footer>
+				<OverflowToolbar>
+					<Button icon="sap-icon://message-popup"
+						text="어느 부서로 연락하시겠습니까?"
+						type="Emphasized"
+						press="onMessageButtonPress"
+						visible="true"/>
+					<ToolbarSpacer/>
+					<Button type="Accept" text="Information Desk" press="onPressContactID"/>
+					<Button type="Reject" text="Food and Beverage" press="onPressContactFB"/>
+				</OverflowToolbar>
+			</f:footer>
+		</f:DynamicPage>
+	</Page>
+</mvc:View>

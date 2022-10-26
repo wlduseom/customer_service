@@ -1,0 +1,129 @@
+<mvc:View controllerName="sync.c201.roomservice.controller.Detail"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+		xmlns:f="sap.f"
+		xmlns:layout="sap.ui.layout"
+		height="100%">
+		<f:DynamicPage id="checkItemPage" headerExpanded="{/headerExpanded}" toggleHeaderOnTitleClick="{/titleClickable}">
+			<!-- DynamicPage Title -->
+			<f:title>
+				<f:DynamicPageTitle>
+					<f:heading>
+						<Title text="Order Item Check"/>
+					</f:heading>
+					<f:expandedContent>
+						<Label text="주문 내역 확인"/>
+					</f:expandedContent>
+					<f:snappedContent>
+						<Label text="주문 내역 확인"/>
+					</f:snappedContent>
+					<f:snappedTitleOnMobile>
+						<Title text="주문 내역 확인"/>
+					</f:snappedTitleOnMobile>
+				</f:DynamicPageTitle>
+			</f:title>
+			<!-- DynamicPage Header -->
+			<f:header>
+				<f:DynamicPageHeader pinnable="true">
+					<layout:HorizontalLayout allowWrapping="true">
+						<layout:VerticalLayout class="sapUiMediumMarginEnd">
+							<ObjectAttribute title="객실 호수" text="{Compo2>/sRoomno}"/>
+							<ObjectAttribute title="주문 번호" text="{Compo2>/sOrderid}"/>
+						</layout:VerticalLayout>
+
+						<layout:VerticalLayout>
+							<ObjectAttribute title="CS TEAM"/>
+							<ObjectStatus text="{InfoData>/sEmpNm}" state="Success" />
+						</layout:VerticalLayout>
+					</layout:HorizontalLayout>
+					<ToolbarSpacer />
+					<VBox alignItems="End">
+						<ToolbarSpacer />
+						<Button text="Order Cancel" press="onOrderCancel" type="Up" visible="{detailModel>/bVisible_cancel}"/>
+					</VBox>
+				</f:DynamicPageHeader>
+			</f:header>
+			<f:content>
+				<Table id="checkItemTable"
+						sticky="HeaderToolbar,ColumnHeaders"
+						inset="false"
+						items="{
+							path: 'Compo>/'
+						}"
+					   class="sapFDynamicPageAlignContent"
+					   width="auto">
+					<headerToolbar>
+						<Toolbar>
+							<Title text="Order Item Lists" level="H2"/>
+							<ToolbarSpacer/>
+							<Button text="All check" type="Accept" press="onToggleFooterAC" visible="{detailModel>/bVisible_cancel}"/>
+							<Button text="Contact" type="Reject" press="onToggleFooterContact"/>
+							<Button text="Back" type="Transparent" press="onNavBack"/>
+						</Toolbar>
+					</headerToolbar>
+					<columns>
+						<Column
+								width="40%"
+								hAlign="Center">
+							<Text text="Product" />
+						</Column>
+						<Column
+								width="40%"
+								minScreenWidth="Tablet"
+								demandPopin="true"
+								hAlign="Center">
+							<Text text="Number of products" />
+						</Column>
+						<Column
+								width="20%"
+								hAlign="Center">
+							<Text text="Check" />
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem vAlign="Middle">
+							<cells>
+								<ObjectIdentifier
+										title="{Compo>Product}"
+										text="{Compo>Prod}"/>
+
+								<ObjectNumber
+										number="{
+											parts:[{path:'Compo>Prodcnt'},{path:'Compo>Produnit'}],
+											type: 'sap.ui.model.type.Unit',
+											formatOptions: {showMeasure: false}
+										}"
+										unit="{Compo>Produnit}" />
+									<CheckBox selected="{Compo>orderCheck}" textAlign="Center" select="onSetCheck" enabled="{Compo>orderCheckEnabled}"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+				
+			</f:content>
+			<!-- DynamicPage Footer -->
+			<f:footer>
+				<OverflowToolbar>
+
+					<Button icon="sap-icon://message-popup"
+						text="Do you want to contact Food and Beverage Team?"
+						type="Emphasized"
+						press="onMessageButtonPress"
+						visible="{detailModel>/bVisible1}"/>
+					<ToolbarSpacer visible="{detailModel>/bVisible1}"/>
+					<Button type="Transparent" text="Food and Beverage" press="onPressContactFB" visible="{detailModel>/bVisible1}"/>
+
+					<!-- <Label text="Total" design="Bold" displayOnly="true" visible="{detailModel>/bVisible2}" /> -->
+					<ObjectStatus
+												text="Total"
+												visible="{detailModel>/bVisible2}"
+												state="Success"/>
+					<Text text="{detailModel>/iTotal}" visible="{detailModel>/bVisible2}"/>
+					<Text text="{detailModel>/sCurky}" visible="{detailModel>/bVisible2}"/>
+					<ToolbarSpacer visible="{detailModel>/bVisible2}"/>
+					<Button type="Emphasized" text="Confirm" press="onPressConfirm" visible="{detailModel>/bVisible2}"  enabled="{detailModel>/bEnabled}"/>
+
+				</OverflowToolbar>
+			</f:footer>
+		</f:DynamicPage>
+</mvc:View>

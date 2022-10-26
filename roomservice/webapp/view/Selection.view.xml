@@ -1,0 +1,43 @@
+<mvc:View controllerName="sync.c201.roomservice.controller.Selection"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m">
+	<Page
+		enableScrolling="true"
+		title="Please fill in the blanks with your information."
+		titleLevel="H1"
+		showFooter="false"
+		>
+	<List
+		headerText="Employee Information" 
+		class="sapUiLargeMarginEnd, sapUiLargeMarginBottom"
+		>
+		<InputListItem label="Plant">
+			<Select width="70%" autoAdjustWidth="true" id="plantInfo" selectedKey="{InfoData>/sPlant}">
+				<core:Item key="Seoul" text="Seoul" />
+				<core:Item key="Jeju" text="Jeju" />
+			</Select>
+		</InputListItem>
+		<InputListItem label="Department">
+			<Input	id="depNmInfo"
+					placeholder="Department"
+					value="{InfoData>/sDepNm}"
+					width="50%"
+					textAlign="Begin" 
+					editable="false"/>
+		</InputListItem>
+		<InputListItem label="Name">
+			<Input	id="empNmInfo"
+					value="{InfoData>/sEmpNm}"
+					placeholder="Your Name"
+					width="50%"
+					textAlign="Begin"
+					required="true" />
+		</InputListItem>
+	</List>
+	<VBox alignItems="End" class="sapUiLargeMarginEnd">
+    <Button text="Go to the Room Service List" press="onNavList" type="Emphasized"/>
+	</VBox>
+    </Page>
+</mvc:View>

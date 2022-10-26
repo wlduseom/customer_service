@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZGWC2SD1002_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Service" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Plant"/>
+                    <PropertyRef Name="Bookid"/>
+                    <PropertyRef Name="Orderid"/>
+                    <PropertyRef Name="Prodid"/>
+                </Key>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="지점 코드" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Bookid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="예약 번호" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Orderid" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="주문 번호" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Prodid" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="제품 ID" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Prod" Type="Edm.String" MaxLength="15" sap:unicode="false" sap:label="제품명" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Roomno" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="객실 호수" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Prodcnt" Type="Edm.Decimal" Precision="13" Scale="0" sap:unicode="false" sap:unit="Produnit" sap:label="제품 주문 수량" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Produnit" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="제품 단위" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:semantics="unit-of-measure"/>
+                <Property Name="Saleprce" Type="Edm.Decimal" Precision="16" Scale="3" sap:unicode="false" sap:unit="Prodcuky" sap:label="제품 판매 가격" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="Prodcuky" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="제품 판매 가격" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:semantics="currency-code"/>
+                <Property Name="PaymtF" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="결제 여부 판단" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Paydat" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="결제 날짜" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Orderstat" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="주문 상태" sap:creatable="false"/>
+                <Property Name="Fbstat" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="진행 상태" sap:creatable="false"/>
+                <Property Name="Csstat" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="진행 상태" sap:creatable="false"/>
+            </EntityType>
+            <EntityContainer Name="ZGWC2SD1002_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ServiceSet" EntityType="ZGWC2SD1002_SRV.Service" sap:creatable="false" sap:deletable="false" sap:searchable="true" sap:pageable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <atom:link rel="self" href="http://edu.bgis.co.kr:8001/sap/opu/odata/sap/ZGWC2SD1002_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://edu.bgis.co.kr:8001/sap/opu/odata/sap/ZGWC2SD1002_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
