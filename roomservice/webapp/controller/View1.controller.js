@@ -39,6 +39,7 @@ sap.ui.define([
 
                 var oModel = this.getOwnerComponent().getModel();
                 var oComponentModel = this.getOwnerComponent().getModel('Compo');
+                var oCompo2Model = this.getOwnerComponent().getModel('Compo2');
                 var oCountModel = this.getOwnerComponent().getModel('CountData');
                 var oInfoModel = this.getOwnerComponent().getModel('InfoData');
                 // var aFilter = this._selectPlantFilter();
@@ -46,28 +47,107 @@ sap.ui.define([
                 this._getReadServiceSet(oModel, [], oComponentModel, oCountModel, oInfoModel);
 
                 var oViewModel = this.getView().getModel("view1");
-                oViewModel.setProperty('/bsetFilter', 'All');
+
+                var sFilter = oCompo2Model.getProperty('/sFilter');
+                oViewModel.setProperty('/bsetFilter', sFilter);
+
+                this._selectFirstFilter();
 
             },
 
 
             /**
-             * 맨처음 plant값을 반영한 필터를 씌우기 위함
+             * 맨처음 filter값을 반영한 필터를 씌우기 위함
              */
-             _selectPlantFilter: function() {
+             _selectFirstFilter: function() {
+
                 var oCompoModel = this.getOwnerComponent().getModel("InfoData");
                 var sPlant = oCompoModel.getProperty('/sPlant');
-                var aFilter = [];
+                var aFilters = [];
                 if(
                     sPlant
                 ){
                     var sKey = sPlant === 'Seoul' ? 'S' : 'J';
-                    aFilter.push(
-                        new Filter('Plant', 'EQ', sKey)
-                    );
+                    var sFilter = this.getOwnerComponent().getModel("Compo2").getProperty('/sFilter');
+    
+                    if (sFilter === "All") {
+                        aFilters.push(
+                                new Filter([
+                                new Filter("Plant", "EQ", sKey)
+                            ], true)
+                        );
+                        
+                    } else if (sFilter === "FBok") {
+                        aFilters.push(
+                            new Filter([
+                                new Filter("Fbstat", "EQ", "FINISHED"), 
+                                new Filter("Orderstat", "NE", "FINISHED"),
+                                new Filter("Plant", "EQ", sKey)
+                            ], true)
+
+                        );
+                    } else if (sFilter === "CSok") {
+                        aFilters.push(
+                            new Filter([
+                                new Filter("Orderstat", "EQ", "FINISHED"),
+                                new Filter("Plant", "EQ", sKey)
+                            ], true)
+                        );
+                    };
+
+                };
+                
+                this._setFirstVisibleColumn();
+
+                return aFilters;
+
+            },
+
+            /**
+             * Filter 종류 따라 column을 보여줬다, 안 보여줬다 설정
+             * 준비 완료일 때 CS ONGOING column 편집 할 수 있게 설정
+             */
+             _setFirstVisibleColumn: function () {
+
+                var sKey = this.getOwnerComponent().getModel("Compo2").getProperty('/sFilter');
+
+                var oCompoModel = this.getOwnerComponent().getModel("Compo");
+                var oModel = this.getView().getModel("view1");
+
+                var bVisibleCSON = null;
+                var bVisible = null;
+
+                if (sKey === "All" || sKey === null) {
+
+                    bVisibleCSON = false;
+                    bVisible = true;
+                    
+                } else if (sKey === "FBok") {
+
+                    bVisibleCSON = true;
+                    bVisible = true;
+
+                    for(var i=0;i<oCompoModel.oData.length;i++) {
+                        var sPath_set = null;
+                        if ( oCompoModel.oData[i].Csstat === 'STANDBY' ) {
+                            sPath_set = '/' + i + '/csCheckEnabled'
+                            oCompoModel.setProperty(sPath_set, true);
+                        } else if ( oCompoModel.oData[i].Csstat === 'ONGOING' ) {
+                            sPath_set = '/' + i + '/csCheck';
+                            oCompoModel.setProperty(sPath_set, true);
+                        }
+                    }
+                    
+                } else if (sKey === "CSok") {
+
+                    bVisibleCSON = false;
+                    bVisible = false;
+                    
                 };
 
-                return aFilter;
+                oModel.setProperty('/bVisibleCSON', bVisibleCSON);
+                oModel.setProperty('/bVisibleCS', bVisible);
+                
             },
 
 
@@ -178,7 +258,7 @@ sap.ui.define([
                         this.byId('RoomServiceTable')
                             .getBinding('items')
                             .filter(
-                                this._selectPlantFilter()
+                                this._selectFirstFilter()
                             )
 
                     }.bind(this),
@@ -310,6 +390,8 @@ sap.ui.define([
                     sInfoPlant = 'J';
                 };
 
+                var oCompo2Model = this.getOwnerComponent().getModel('Compo2');
+
                 var oBinding = this.byId("RoomServiceTable").getBinding("items"),
                     sKey = oEvent.getParameter("key"),
                     // Array to combine filters
@@ -324,28 +406,26 @@ sap.ui.define([
                     
                 } else if (sKey === "FBok") {
                     aFilters.push(
-                        new Filter([
                             new Filter([
-                            new Filter("Fbstat", "EQ", "v"), 
+                            new Filter("Fbstat", "EQ", "FINISHED"), 
                             new Filter("Orderstat", "NE", "FINISHED"),
                             new Filter("Plant", "EQ", sInfoPlant)
                         ], true)
-                        ], false)
                     );
                 } else if (sKey === "CSok") {
                     aFilters.push(
-                        new Filter([
                             new Filter([
                             new Filter("Orderstat", "EQ", "FINISHED"),
                             new Filter("Plant", "EQ", sInfoPlant)
                         ], true)
-                        ], false)
                     );
 
 
                 };
     
                 oBinding.filter(aFilters);
+                
+                oCompo2Model.setProperty('/sFilter', sKey);
 
                 this._setVisibleColumn(oEvent);
 
@@ -563,7 +643,6 @@ sap.ui.define([
                     oModel.update(sPath_check_update, oData, { success : function () {
 
                     }, error: function(oError){
-                        debugger
                     }});
 
                     //////////
@@ -677,7 +756,6 @@ sap.ui.define([
                     }
                 });
             },
-
 
 
 

@@ -31,7 +31,8 @@ sap.ui.define([
 
                     sBookid  : null,
                     sOrderid : null,
-                    sRoomno  : null
+                    sRoomno  : null,
+                    sFilter : null
 
                 };
 
