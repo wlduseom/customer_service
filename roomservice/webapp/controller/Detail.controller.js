@@ -265,22 +265,9 @@ sap.ui.define([
 
                     // PUT (update 요청)
                     oModel.update(sPath_check_update, oData, { success : function () {
-                        if ( ssetStatus == "ONGOING" ) {
-                            MessageToast.show("FB Team으로부터 주문 내역을 전달 받았습니다.")
-                        } else {
-                            MessageToast.show("주문 수행을 취소하였습니다.")
-                        }
-                    }, error: function(oError){
-                        debugger
-                    }});
-
-                    var oModel = this.getView().getModel();  
-
-                    // PUT (update 요청)
-                    oModel.update(sPath_check_update, oData, { success : function () {
                         iCheck = iCheck + 1
                     }, error: function(oError){
-                        debugger
+                        console.log('주문 수행 성공 내역 업데이트 실패');
                     }});
 
                     //////////
@@ -460,8 +447,7 @@ sap.ui.define([
              _onUpdate_cancel : function (aIndex, ssetStatus) {
 
                 var oCompoModel = this.getOwnerComponent().getModel("Compo");  // 데이터가 담겨있는 곳 
-
-
+                
                 for (var i=0;i<aIndex.length;i++) {
                     
                     var iIndex = aIndex[i];
@@ -505,7 +491,7 @@ sap.ui.define([
                     oModel.update(sPath_check_update, oData, { success : function () {
 
                     }, error: function(oError){
-                        debugger
+                        console.log('standby <-> ongoing 업데이트 실패')
                     }});
                         
                     //////////
