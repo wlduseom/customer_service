@@ -22,8 +22,8 @@ sap.ui.define([
                 UIComponent.prototype.init.apply(this, arguments);
 
                 var infoData = {
-                    sPlant : 'Seoul',
-                    sDepNm : 'Customer Service Team',
+                    sPlant : null,
+                    sDepNm : '고객 서비스팀',
                     sEmpNm : null
                 };
                 
@@ -32,7 +32,7 @@ sap.ui.define([
                     sBookid  : null,
                     sOrderid : null,
                     sRoomno  : null,
-                    sFilter : null
+                    sFilter  : null
 
                 };
 

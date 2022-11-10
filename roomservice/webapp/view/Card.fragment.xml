@@ -7,7 +7,7 @@
 			<f:Card width="300px">
 				<f:header>
 					<card:NumericHeader
-						title="FB Team 준비 완료 건수"
+						title="식음료팀 준비 완료 건수"
 						subtitle="From Food and Beverage Team"
 						number="{CountData>/iCheck_fb_f}"
 						scale="건"

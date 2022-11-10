@@ -5,21 +5,21 @@
 	xmlns="sap.m">
 	<Page
 		enableScrolling="true"
-		title="Please fill in the blanks with your information."
+		title="정보를 입력해주세요."
 		titleLevel="H1"
 		showFooter="false"
 		>
 	<List
-		headerText="Employee Information" 
+		headerText="직원 정보" 
 		class="sapUiLargeMarginEnd, sapUiLargeMarginBottom"
 		>
-		<InputListItem label="Plant">
+		<InputListItem label="지점">
 			<Select width="70%" autoAdjustWidth="true" id="plantInfo" selectedKey="{InfoData>/sPlant}">
-				<core:Item key="Seoul" text="Seoul" />
-				<core:Item key="Jeju" text="Jeju" />
+				<core:Item key="서울 본점" text="서울 본점" />
+				<core:Item key="제주 지점" text="제주 지점" />
 			</Select>
 		</InputListItem>
-		<InputListItem label="Department">
+		<InputListItem label="부서명">
 			<Input	id="depNmInfo"
 					placeholder="Department"
 					value="{InfoData>/sDepNm}"
@@ -27,17 +27,17 @@
 					textAlign="Begin" 
 					editable="false"/>
 		</InputListItem>
-		<InputListItem label="Name">
+		<InputListItem label="이름">
 			<Input	id="empNmInfo"
 					value="{InfoData>/sEmpNm}"
-					placeholder="Your Name"
+					placeholder="본인 이름을 입력하세요."
 					width="50%"
 					textAlign="Begin"
 					required="true" />
 		</InputListItem>
 	</List>
 	<VBox alignItems="End" class="sapUiLargeMarginEnd">
-    <Button text="Go to the Room Service List" press="onNavList" type="Emphasized"/>
+    <Button text="룸 서비스 내역 조회" press="onNavList" type="Emphasized"/>
 	</VBox>
     </Page>
 </mvc:View>

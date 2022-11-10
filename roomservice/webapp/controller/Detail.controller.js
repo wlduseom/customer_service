@@ -122,7 +122,7 @@ sap.ui.define([
 
                 this.getPage().setShowFooter(false);
 
-                if ( sValue == "Seoul" ) {
+                if ( sValue == "서울 본점" ) {
 
                     MessageToast.show("Tel : 02-9876-5432");
 
@@ -539,7 +539,7 @@ sap.ui.define([
                     MessageToast.show("확인되지 않은 목록이 \n" + iCount_false + "개 존재합니다.")
                     oDetailModel.setProperty('/bEnabled', false);
                 } else {
-                    MessageToast.show("총 액수 확인 후 \nConfirm Button을 \n눌러주세요.")
+                    MessageToast.show("총 액수 확인 후 \nConfirm 버튼을 \n눌러주세요.")
                     oDetailModel.setProperty('/bEnabled', true);
                 } 
 

@@ -26,6 +26,7 @@ sap.ui.define([
              */
             _onObjectMatched : function () {
 
+
                 // filter 조건에서 전달 완료 내역일 때 fb column 안 보이게 설정, 다른 곳 갔다가 돌아왔을 때 첫번째 필터로 설정해두기
                 var oData = {
                     bVisibleCS  : true,
@@ -43,6 +44,10 @@ sap.ui.define([
                 var oCountModel = this.getOwnerComponent().getModel('CountData');
                 var oInfoModel = this.getOwnerComponent().getModel('InfoData');
                 // var aFilter = this._selectPlantFilter();
+
+                if ( oInfoModel.oData.sPlant === null ) {
+                    this.getRouter().navTo("selection");
+                }
 
                 this._getReadServiceSet(oModel, [], oComponentModel, oCountModel, oInfoModel);
 
@@ -63,11 +68,12 @@ sap.ui.define([
 
                 var oCompoModel = this.getOwnerComponent().getModel("InfoData");
                 var sPlant = oCompoModel.getProperty('/sPlant');
+
                 var aFilters = [];
                 if(
                     sPlant
                 ){
-                    var sKey = sPlant === 'Seoul' ? 'S' : 'J';
+                    var sKey = sPlant === '서울 본점' ? 'S' : 'J';
                     var sFilter = this.getOwnerComponent().getModel("Compo2").getProperty('/sFilter');
     
                     if (sFilter === "All") {
@@ -171,7 +177,6 @@ sap.ui.define([
                         var iCheck_cs_ongoing_j  = 0;
                         var iCheck_cs_finished_j = 0;
 
-
                         // 값을 담을 때 각 상태의 글자에 따라 색깔을 달리 해줌
                         // 값을 담을 때 카드에 담을 값도 계산 함
                         for(var i = 0; i<aResult.length; i++){
@@ -186,7 +191,12 @@ sap.ui.define([
                                     iCheck_fb_finished_j = iCheck_fb_finished_j + 1;
                                 };
 
-                            } else if ( aResult[i].Fbstat == 'ONGOING' ) {
+                            } 
+                            // else if ( aResult[i].Fbstat == 'FINISHED' ) {
+                            //     aResult[i].indicator1 = "Success";
+
+                            // } 
+                            else if ( aResult[i].Fbstat == 'ONGOING' ) {
                                 aResult[i].indicator1 = "Error";
 
                             } else {
@@ -241,13 +251,13 @@ sap.ui.define([
 
                         oComponentModel.setData(aResult);
 
-                        if ( oInfoModel.oData.sPlant === 'Seoul') {
+                        if ( oInfoModel.oData.sPlant === '서울 본점') {
 
                             oCountModel.setProperty('/iCheck_fb_f', iCheck_fb_finished_s);
                             oCountModel.setProperty('/iCheck_cs_o', iCheck_cs_ongoing_s);
                             oCountModel.setProperty('/iCheck_cs_f', iCheck_cs_finished_s);
 
-                        } else if ( oInfoModel.oData.sPlant === 'Jeju') {
+                        } else if ( oInfoModel.oData.sPlant === '제주 지점') {
 
                             oCountModel.setProperty('/iCheck_fb_f', iCheck_fb_finished_j);
                             oCountModel.setProperty('/iCheck_cs_o', iCheck_cs_ongoing_j);
@@ -384,9 +394,9 @@ sap.ui.define([
                 var sPlant = oCompoModel.oData.sPlant;
                 var sInfoPlant = null;
 
-                if ( sPlant === "Seoul" ) {
+                if ( sPlant === "서울 본점" ) {
                     sInfoPlant = 'S';
-                } else if ( sPlant === "Jeju" ) {
+                } else if ( sPlant === "제주 지점" ) {
                     sInfoPlant = 'J';
                 };
 
@@ -488,7 +498,7 @@ sap.ui.define([
                 var oCompoModel = this.getOwnerComponent().getModel("InfoData");
                 var sValue = oCompoModel.getProperty("/sPlant");
 
-                if ( sValue == "Seoul" ) {
+                if ( sValue == "서울 본점" ) {
 
                     MessageToast.show("Tel : 02-1234-5678");
 
@@ -509,7 +519,7 @@ sap.ui.define([
                 var oCompoModel = this.getOwnerComponent().getModel("InfoData");
                 var sValue = oCompoModel.getProperty("/sPlant");
 
-                if ( sValue == "Seoul" ) {
+                if ( sValue == "서울 본점" ) {
 
                     MessageToast.show("Tel : 02-9876-5432");
 
@@ -721,13 +731,13 @@ sap.ui.define([
                     };
                 };
 
-                if ( oInfoModel.oData.sPlant === 'Seoul') {
+                if ( oInfoModel.oData.sPlant === '서울 본점') {
 
                     oCountModel.setProperty('/iCheck_fb_f', iCheck_fb_finished_s);
                     oCountModel.setProperty('/iCheck_cs_o', iCheck_cs_ongoing_s);
                     oCountModel.setProperty('/iCheck_cs_f', iCheck_cs_finished_s);
 
-                } else if ( oInfoModel.oData.sPlant === 'Jeju') {
+                } else if ( oInfoModel.oData.sPlant === '제주 지점') {
 
                     oCountModel.setProperty('/iCheck_fb_f', iCheck_fb_finished_j);
                     oCountModel.setProperty('/iCheck_cs_o', iCheck_cs_ongoing_j);
