@@ -26,7 +26,6 @@ sap.ui.define([
              */
             _onObjectMatched : function () {
 
-
                 // filter 조건에서 전달 완료 내역일 때 fb column 안 보이게 설정, 다른 곳 갔다가 돌아왔을 때 첫번째 필터로 설정해두기
                 var oData = {
                     bVisibleCS  : true,
@@ -74,6 +73,13 @@ sap.ui.define([
                     sPlant
                 ){
                     var sKey = sPlant === '서울 본점' ? 'S' : 'J';
+                    // var sKey = null;
+                    // if ( sPlant === "서울 본점" ) {
+                    //     sKey = 'S';
+                    // } else if ( sPlant === "제주 지점" ) {
+                    //     sKey = 'J';
+                    // };
+
                     var sFilter = this.getOwnerComponent().getModel("Compo2").getProperty('/sFilter');
     
                     if (sFilter === "All") {
@@ -96,6 +102,12 @@ sap.ui.define([
                         aFilters.push(
                             new Filter([
                                 new Filter("Orderstat", "EQ", "FINISHED"),
+                                new Filter("Plant", "EQ", sKey)
+                            ], true)
+                        );
+                    } else if (sFilter === null ) {
+                        aFilters.push(
+                            new Filter([
                                 new Filter("Plant", "EQ", sKey)
                             ], true)
                         );
@@ -192,10 +204,10 @@ sap.ui.define([
                                 };
 
                             } 
-                            // else if ( aResult[i].Fbstat == 'FINISHED' ) {
-                            //     aResult[i].indicator1 = "Success";
+                            else if ( aResult[i].Fbstat == 'FINISHED' ) {
+                                aResult[i].indicator1 = "Success";
 
-                            // } 
+                            } 
                             else if ( aResult[i].Fbstat == 'ONGOING' ) {
                                 aResult[i].indicator1 = "Error";
 
@@ -362,7 +374,7 @@ sap.ui.define([
 
 
             /**
-             * 상단에 작은 팝업창?으로 정보를 띄워줌 (Card.xml을 통해서)
+             * 상단에 작은 팝업으로 정보를 띄워줌 (Card.xml을 통해서)
              */
              onGenericTagPress: function (oEvent) {
 
